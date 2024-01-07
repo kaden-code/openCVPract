@@ -26,7 +26,6 @@ def returnFrame(camera):
 startInput = input(startQuestion)
 
 def mouseClick(event,xPos,yPos,flags,params):
-    if event == cv2.EVENT_LBUTTONDOWN:
      print("Mouse wheel down")
      print("Event type: ", event)
      print("Cursor x: ", xPos)
@@ -34,21 +33,6 @@ def mouseClick(event,xPos,yPos,flags,params):
      print("Flags: ", flags)
      print("Params: ", params)
     
-  
-    if event == cv2.EVENT_MOUSEWHEEL:
-     print("Mouse wheel down")
-     print("Event type: ", event)
-     print("Cursor x: ", xPos)
-     print("Cursor y: ", yPos)
-     print("Flags: ", flags)
-     print("Params: ", params)
-    if event == cv2.EVENT_RBUTTONDOWN:
-     print("Roght mouse click")
-     print("Event type: ", event)
-     print("Cursor x: ", xPos)
-     print("Cursor y: ", yPos)
-     print("Flags: ", flags)
-     print("Params: ", params)
 
 
 
