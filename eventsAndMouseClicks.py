@@ -6,6 +6,9 @@ startKey = "AI"
 cameraWidth = 1280
 cameraHeight = 720
 
+red = (0,0,255)
+circleRadius = 50
+
 def cameraSizing(width,height):
      camera.set(cv2.CAP_PROP_FRAME_WIDTH,width)
      camera.set(cv2.CAP_PROP_FRAME_HEIGHT,height)
@@ -25,13 +28,20 @@ def returnFrame(camera):
 
 startInput = input(startQuestion)
 
+clickType = None
+clickPostion = None
+ 
 def mouseClick(event,xPos,yPos,flags,params):
-     print("Mouse wheel down")
-     print("Event type: ", event)
-     print("Cursor x: ", xPos)
-     print("Cursor y: ", yPos)
-     print("Flags: ", flags)
-     print("Params: ", params)
+     if event == cv2.EVENT_LBUTTONDOWN:
+      global clickType
+      global clickPostion
+      print("Event type: ", event)
+      print("Cursor x: ", xPos)
+      print("Cursor y: ", yPos)
+      print("Flags: ", flags)
+      print("Params: ", params)
+      clickType = event
+      clickPostion = (xPos,yPos)
     
 
 
@@ -46,6 +56,9 @@ if startInput == startKey:
     cv2.setMouseCallback(window,mouseClick)
     while True:
       frame = returnFrame(camera)
+      if clickType == 1:
+        cv2.circle(frame,clickPostion,circleRadius, red)
+
       cv2.imshow(window,frame)
       if cv2.waitKey(1) == ord("q"):
             break
