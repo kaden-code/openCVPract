@@ -42,7 +42,10 @@ def mouseClick(event,xPos,yPos,flags,params):
       print("Params: ", params)
       clickType = event
       clickPostion = (xPos,yPos)
-    
+     if event == cv2.EVENT_RBUTTONUP:
+        print(event)
+        clickType = event
+
 
 
 
@@ -58,7 +61,6 @@ if startInput == startKey:
       frame = returnFrame(camera)
       if clickType == 1:
         cv2.circle(frame,clickPostion,circleRadius, red)
-
       cv2.imshow(window,frame)
       if cv2.waitKey(1) == ord("q"):
             break
