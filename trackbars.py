@@ -8,13 +8,15 @@ cameraHeight = 720
 
 trackWindow = "trackBars"
 trackBarWidth = 400
-trackBarHeight= 100
+trackBarHeight= 150
 trackXStart = 0
 trackXMax = cameraWidth
 trackYStart = 0
 trackYMax = cameraHeight
 trackRadiusStart = 0
-trackRadiusMax = 500
+trackRadiusMax = int(cameraHeight/2)
+trackThicknessStart = 0
+trackThicknessMax = 100
 
 trackX = int(trackXMax/2)
 trackY = int(trackYMax/2)
@@ -59,6 +61,11 @@ def radiusBarFunction(val):
     circleRadius = val
     print("Radius: ", val)
 
+def thicknessBarFunction(val):
+    global circleThickness
+    circleThickness = val
+    print("Radius: ", val)
+
 
 startInput = input(startQuestion)
 if startInput == startKey:
@@ -73,6 +80,7 @@ if startInput == startKey:
     cv2.createTrackbar('xPos',trackWindow,trackXStart,trackXMax,xBarFunction)
     cv2.createTrackbar('yPos',trackWindow,trackYStart,trackYMax,yBarFunction)
     cv2.createTrackbar('Radius',trackWindow,trackRadiusStart,trackRadiusMax,radiusBarFunction)
+    cv2.createTrackbar('Thickness',trackWindow,trackThicknessStart,trackThicknessMax,thicknessBarFunction)
     while True:
       frame = returnFrame(camera)
       cv2.circle(frame,(trackX,trackY),circleRadius,blue,circleThickness)
