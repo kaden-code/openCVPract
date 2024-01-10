@@ -9,11 +9,19 @@ cameraHeight = 720
 trackWindow = "trackBars"
 trackBarWidth = 400
 trackBarHeight= 100
-trackXStart = 860
-trackXMax = 1920
-trackYStart = 540
-trackYMax = 1080
+trackXStart = 0
+trackXMax = cameraWidth
+trackYStart = 0
+trackYMax = cameraHeight
 
+trackX = int(trackXMax/2)
+trackY = int(trackYMax/2)
+
+
+
+circleRadius = 25
+circleThickness = 2
+blue = (255,0,0)
 def cameraSizing(width,height):
      camera.set(cv2.CAP_PROP_FRAME_WIDTH,width)
      camera.set(cv2.CAP_PROP_FRAME_HEIGHT,height)
@@ -33,8 +41,17 @@ def returnFrame(camera):
 
 
 
-def trackBarFunction(val):
-    print(val)
+def xBarFunction(val):
+    global trackX
+    trackX = val
+    print("x: ",val)
+
+
+def yBarFunction(val):
+    global trackY
+    trackY = val
+    print("y: ", val)
+
 
 startInput = input(startQuestion)
 if startInput == startKey:
@@ -46,10 +63,11 @@ if startInput == startKey:
     cv2.namedWindow(trackWindow)
     cv2.resizeWindow(trackWindow,trackBarWidth,trackBarHeight)
     cv2.moveWindow(trackWindow,cameraWidth,0)
-    cv2.createTrackbar('xPos',trackWindow,trackXStart,trackXMax,trackBarFunction)
-    cv2.createTrackbar('yPos',trackWindow,trackYStart,trackYMax,trackBarFunction)
+    cv2.createTrackbar('xPos',trackWindow,trackXStart,trackXMax,xBarFunction)
+    cv2.createTrackbar('yPos',trackWindow,trackYStart,trackYMax,yBarFunction)
     while True:
       frame = returnFrame(camera)
+      cv2.circle(frame,(trackX,trackY),circleRadius,blue,circleThickness)
       cv2.imshow("Camera window",frame)
       if cv2.waitKey(1) == ord("q"):
             break
