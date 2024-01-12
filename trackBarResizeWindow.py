@@ -58,6 +58,13 @@ def changePostionY(val):
      print("Camera Y:", cameraY)
      cv2.moveWindow(cameraWindow,cameraX,cameraY)
 
+sizeDisplayText = ""
+textFont = cv2.FONT_HERSHEY_COMPLEX
+textSize = 1
+textThickness = 1
+black = (0,0,0)
+red = (0,0,255)
+white = (255,255,255)
 
 startInput = input(startQuestion)
 
@@ -76,7 +83,9 @@ if startInput == startKey:
     
     while True:
       frame = returnFrame(camera)
+      cv2.putText(frame,sizeDisplayText,(0,25),textFont,textSize,red,textThickness)
       cv2.imshow(cameraWindow,frame)
+      sizeDisplayText = "Size: " + str(cameraWidth) + "," + str(cameraHeight)
       if cv2.waitKey(1) == ord("q"):
             break
     
