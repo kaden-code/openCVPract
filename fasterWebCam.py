@@ -29,7 +29,7 @@ if startInput == startKey:
     camera = cv2.VideoCapture(0,cv2.CAP_DSHOW)
 ##formats how the video gets decoded (Set as moving jpeg)
     camera.set(cv2.CAP_PROP_FOURCC,cv2.VideoWriter_fourcc(*"MJPG"))
-    cameraSizing(cameraWidth,cameraWidth)
+    cameraSizing(cameraWidth,cameraHeight)
     cameraFps(30)
     
     while True:
