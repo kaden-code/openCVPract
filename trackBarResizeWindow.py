@@ -21,29 +21,42 @@ def returnFrame(camera):
 
 
 
+cameraX = 0
+cameraY = 0
+
+cameraWindow = "Camera window"
+
 
 trackWindow = "trackBars"
 trackWindowHeight = 400
 trackWindowWidth = 100
 trackStart = 0 
-trackMax = 80
+resizeMax = int(cameraWidth/16)
 
-def changeWidth(val):
+xMax = 1920
+yMax = 1080
+
+def changeSize(val):
      global cameraWidth
-     print("Camera width: ", val)
+     global cameraHeight
      cameraWidth = int(val * 16)
+     cameraHeight = int(val * 9)
+     print("Camera width: ", cameraWidth)
+     print("Camera height: ", cameraHeight)
      cameraSizing(cameraWidth,cameraHeight)  
      
 
+def changePostionX(val):
+     global cameraX
+     cameraX = val
+     print("Camera x:", cameraX)
+     cv2.moveWindow(cameraWindow,cameraX,cameraY)
 
-def changeHeight(val):
-     global cameraHeight
-     cameraHeight = int(val * 9)
-     cameraSizing(cameraWidth,cameraHeight)  
-     print("Camera height: ", cameraHeight)
-
-
-
+def changePostionY(val):
+     global cameraY
+     cameraY = val
+     print("Camera Y:", cameraY)
+     cv2.moveWindow(cameraWindow,cameraX,cameraY)
 
 
 startInput = input(startQuestion)
@@ -53,15 +66,17 @@ if startInput == startKey:
 ##formats how the video gets decoded (Set as moving jpeg)
     camera.set(cv2.CAP_PROP_FOURCC,cv2.VideoWriter_fourcc(*"MJPG"))
     cv2.namedWindow(trackWindow)
-    cv2.createTrackbar("camera width",trackWindow,trackStart,trackMax,changeWidth)
-    cv2.createTrackbar("camera height",trackWindow,trackStart,trackMax,changeHeight)
+    cv2.namedWindow(cameraWindow)
+    cv2.createTrackbar("Size",trackWindow,trackStart,resizeMax,changeSize)
+    cv2.createTrackbar("x",trackWindow,trackStart,xMax,changePostionX)
+    cv2.createTrackbar("y",trackWindow,trackStart,yMax,changePostionY)
     cameraFps(30)
     cameraSizing(cameraWidth,cameraHeight)
 
     
     while True:
       frame = returnFrame(camera)
-      cv2.imshow("Camera window",frame)
+      cv2.imshow(cameraWindow,frame)
       if cv2.waitKey(1) == ord("q"):
             break
     
