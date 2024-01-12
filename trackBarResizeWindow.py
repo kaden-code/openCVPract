@@ -30,8 +30,8 @@ cameraWindow = "Camera window"
 trackWindow = "trackBars"
 trackWindowHeight = 400
 trackWindowWidth = 100
-trackStart = 0 
 resizeMax = int(cameraWidth/16)
+trackStart = resizeMax
 
 xMax = 1920
 yMax = 1080
@@ -46,19 +46,20 @@ def changeSize(val):
      cameraSizing(cameraWidth,cameraHeight)  
      
 
-def changePostionX(val):
+def changePositionX(val):
      global cameraX
      cameraX = val
      print("Camera x:", cameraX)
      cv2.moveWindow(cameraWindow,cameraX,cameraY)
 
-def changePostionY(val):
+def changePositionY(val):
      global cameraY
      cameraY = val
      print("Camera Y:", cameraY)
      cv2.moveWindow(cameraWindow,cameraX,cameraY)
 
 sizeDisplayText = ""
+positionDisplayText = ""
 textFont = cv2.FONT_HERSHEY_COMPLEX
 textSize = 1
 textThickness = 1
@@ -75,8 +76,8 @@ if startInput == startKey:
     cv2.namedWindow(trackWindow)
     cv2.namedWindow(cameraWindow)
     cv2.createTrackbar("Size",trackWindow,trackStart,resizeMax,changeSize)
-    cv2.createTrackbar("x",trackWindow,trackStart,xMax,changePostionX)
-    cv2.createTrackbar("y",trackWindow,trackStart,yMax,changePostionY)
+    cv2.createTrackbar("x",trackWindow,trackStart,xMax,changePositionX)
+    cv2.createTrackbar("y",trackWindow,trackStart,yMax,changePositionY)
     cameraFps(30)
     cameraSizing(cameraWidth,cameraHeight)
 
@@ -84,8 +85,11 @@ if startInput == startKey:
     while True:
       frame = returnFrame(camera)
       cv2.putText(frame,sizeDisplayText,(0,25),textFont,textSize,red,textThickness)
+      cv2.putText(frame,positionDisplayText,(0,75),textFont,textSize,red,textThickness)
       cv2.imshow(cameraWindow,frame)
+      cv2.moveWindow(cameraWindow,cameraX,cameraY)
       sizeDisplayText = "Size: " + str(cameraWidth) + "," + str(cameraHeight)
+      positionDisplayText = "X: " + str(cameraX) + ", Y:" + str(cameraY)
       if cv2.waitKey(1) == ord("q"):
             break
     
