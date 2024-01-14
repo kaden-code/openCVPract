@@ -91,5 +91,4 @@ if startInput == startKey:
       sizeDisplayText = "Size: " + str(cameraWidth) + "," + str(cameraHeight)
       positionDisplayText = "X: " + str(cameraX) + ", Y:" + str(cameraY)
       if cv2.waitKey(1) == ord("q"):
-            break
-    
+            break 
