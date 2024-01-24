@@ -20,8 +20,10 @@ def returnFrame(camera):
       ignore,frame = camera.read()
       return frame
 
-
+clickType = null
 def mouseClick(event,xPos,yPos,flags,params):
+    global clickType
+    if clickType == cv2.EVENT_LBUTTONDOWN:
       print("Event type: ", event)
       print("Cursor x: ", xPos)
       print("Cursor y: ", yPos)
@@ -46,7 +48,7 @@ if startInput == startKey:
     
     while True:
       frame = returnFrame(camera)
-      cv2.imshow("Camera window",frame)
+      cv2.imshow(window,frame)
       if cv2.waitKey(1) == ord("q"):
             break
     
