@@ -20,15 +20,21 @@ def returnFrame(camera):
       ignore,frame = camera.read()
       return frame
 
-clickType = null
+clickType = None
+clickPosition = None
 def mouseClick(event,xPos,yPos,flags,params):
     global clickType
+    global clickPosition
+    clickType = event
     if clickType == cv2.EVENT_LBUTTONDOWN:
       print("Event type: ", event)
       print("Cursor x: ", xPos)
       print("Cursor y: ", yPos)
       print("Flags: ", flags)
       print("Params: ", params)
+      clickType = event
+      clickPosition = (xPos,yPos)
+ 
 
 
 
