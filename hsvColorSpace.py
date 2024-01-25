@@ -27,14 +27,13 @@ def mouseClick(event,xPos,yPos,flags,params):
     global clickType
     global clickPosition
     clickType = event
-    if clickType == cv2.EVENT_LBUTTONDOWN:
-      print("Event type: ", event)
-      print("Cursor x: ", xPos)
-      print("Cursor y: ", yPos)
-      print("Flags: ", flags)
-      print("Params: ", params)
-      clickType = event
-      clickPosition = (xPos,yPos)
+    print("Event type: ", event)
+    print("Cursor x: ", xPos)
+    print("Cursor y: ", yPos)         
+    print("Flags: ", flags)
+    print("Params: ", params)
+    clickType = event
+    clickPosition = (xPos,yPos)
 
 startInput = input(startQuestion)
 window = "window"
@@ -51,7 +50,7 @@ if startInput == startKey:
 
     while True:
       frame = returnFrame(camera)
-      if clickType == 1:
+      if clickType == 0:
         x = np.zeros([250,250,3],dtype = np.uint8)
         clickColor = frame[clickPosition[1]][clickPosition[0]]
         print(clickColor)
