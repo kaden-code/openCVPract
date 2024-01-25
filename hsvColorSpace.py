@@ -1,4 +1,5 @@
 import cv2
+import numpy as np
 
 startQuestion = "Enter Key: "
 startKey = "AI"
@@ -34,13 +35,10 @@ def mouseClick(event,xPos,yPos,flags,params):
       print("Params: ", params)
       clickType = event
       clickPosition = (xPos,yPos)
- 
-
-
 
 startInput = input(startQuestion)
 window = "window"
-
+black = (0,0,0)
 
 if startInput == startKey:
     camera = cv2.VideoCapture(0,cv2.CAP_DSHOW)
@@ -51,9 +49,17 @@ if startInput == startKey:
     cv2.namedWindow(window)
     cv2.setMouseCallback(window,mouseClick)
 
-    
     while True:
       frame = returnFrame(camera)
+      if clickType == 1:
+        x = np.zeros([250,250,3],dtype = np.uint8)
+        clickColor = frame[clickPosition[1]][clickPosition[0]]
+        print(clickColor)
+        x[:,:] = clickColor  
+        cv2.putText(x,str(clickColor),(0,50),cv2.FONT_HERSHEY_COMPLEX,1,black,1)
+        cv2.imshow("Color Picker", x)    
+        cv2.moveWindow("Color Picker", cameraWidth,0)
+        clickType = None     
       cv2.imshow(window,frame)
       if cv2.waitKey(1) == ord("q"):
             break
