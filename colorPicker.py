@@ -95,6 +95,10 @@ if userAnswer == startPass:
     while True:
       bgrFrame = makeColorBGR()
       cv2.imshow(bgrDisplayWindow, bgrFrame)
+      cv2.moveWindow(bgrTrackWindow, 0,0)
+      cv2.moveWindow(bgrDisplayWindow,0,0)
+      cv2.moveWindow(hsvTrackWindow, displaySquare + 100,0)
+      cv2.moveWindow(hsvDisplayWindow,displaySquare + 100,0)
       hsvFrame = makeColorHSV()
       cv2.imshow(hsvDisplayWindow, hsvFrame)
 
