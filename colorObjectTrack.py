@@ -76,9 +76,10 @@ if startInput == startKey:
       frameHsv = cv2.cvtColor(frame,cv2.COLOR_BGR2HSV)
       lowerBound = np.array([hueLow,satLow,valLow])
       upperBound = np.array([hueHigh,satHigh,valHigh])
-      ## converts pixels in the bounds to 1 or white and converts pixels out of bounds to black
+      ## converts pixels in the bounds to 1 or white and converts pixels out of bounds to 0 or black
       colorMask = cv2.inRange(frameHsv,lowerBound,upperBound)
-      ## looks at which pixels on the mask is filled in with a 1 or back with a zero 
+      ## looks at which pixels on the mask is filled in with a 1 or b 0
+
       colorObject = cv2.bitwise_and(frame,frame,mask=colorMask)
       cv2.imshow("Mask window",colorMask)
       cv2.moveWindow("Mask window",0,cameraHeight)
