@@ -23,6 +23,8 @@ def returnFrame(camera):
       ignore,frame = camera.read()
       return frame
 
+faceCascade = cv2.CascadeClassifier("haar\haarcascade_frontalface_default.xml")
+
 startInput = input(startQuestion)
 
 if startInput == startKey:
@@ -34,6 +36,9 @@ if startInput == startKey:
     
     while True:
       frame = returnFrame(camera)
+      greyFrame = cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
+      faces = faceCascade.detectMultiScale(greyFrame,1.3,5)
+      print(faces)
       cv2.imshow("Camera window",frame)
       if cv2.waitKey(1) == ord("q"):
             break
