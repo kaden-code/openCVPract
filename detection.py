@@ -30,6 +30,7 @@ faceFrontCascade = cv2.CascadeClassifier("haar\haarcascade_frontalface_default.x
 faceSideCascade = cv2.CascadeClassifier("haar\haarcascade_profileface.xml")
 eyeCascade = cv2.CascadeClassifier("haar\haarcascade_eye.xml")
 smileCascade = cv2.CascadeClassifier("haar\haarcascade_smile.xml")
+fullBodyCascade = cv2.CascadeClassifier("haar\haarcascade_fullbody.xml")
 
 
 faceAngle = ""
@@ -51,13 +52,19 @@ if startInput == startKey:
       facesFront = faceFrontCascade.detectMultiScale(greyFrame,1.3,5)
       is_front_face_detected = False
       smileStatus = "False"
+      fullBodys = fullBodyCascade.detectMultiScale(greyFrame,1.1,3)
+      for fullBody in fullBodys:
+        fullBodyx,fullBodyy,fullBodyWidth,fullBodyHeight = fullBody
+        cv2.rectangle(frame,(fullBodyx,fullBodyy),(fullBodyx+fullBodyWidth,fullBodyy+fullBodyHeight),red,3)
+
+
       for faceFront in facesFront:
         is_front_face_detected = True
         faceAngle = "Front"
         x, y, w, h = faceFront
         cv2.rectangle(frame, (x, y), (x + w, y + h), red, 3)
         faceROI = greyFrame[y:y+h,x:x+w] 
-        smiles = smileCascade.detectMultiScale(faceROI,1.6,8)
+        smiles = smileCascade.detectMultiScale(faceROI,1.8,6)
         for smile in smiles:
                 smileStatus = "True"
                 smilex,smiley,smileWidth,smileHeight = smile
@@ -71,15 +78,17 @@ if startInput == startKey:
             x, y, w, h = faceSide
             cv2.rectangle(frame, (x, y), (x + w, y + h), red, 3)
             faceROI = greyFrame[y:y+h,x:x+w] 
+            smiles = smileCascade.detectMultiScale(faceROI,1.8,6)
             for smile in smiles:
                 smileStatus = "True"
                 smilex,smiley,smileWidth,smileHeight = smile
                 cv2.rectangle(frame[y:y+h,x:x+w],(smilex,smiley),(smilex+smileWidth,smiley+smileHeight),red,3)
+      
+
 
       cv2.putText(frame,fpsText,(0,30),cv2.FONT_HERSHEY_COMPLEX,1,red,1)
       cv2.putText(frame,"Face ViewPoint: "+faceAngle,(0,60),cv2.FONT_HERSHEY_COMPLEX,1,red,1)
-      cv2.putText(frame,"Smile Status: "+smileStatus,(0,90),cv2.FONT_HERSHEY_COMPLEX,1,red,1)
-      
+      cv2.putText(frame,"smile Status:"+smileStatus,(0,90),cv2.FONT_HERSHEY_COMPLEX,1,red,1)
       cv2.imshow("Camera window",frame)
       endTime = time.time()
       duration = endTime - startTime
