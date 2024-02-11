@@ -47,7 +47,7 @@ if startInput == startKey:
                cv2.rectangle(frame,(x,y),(x+w,y+h),red,3)
                cv2.putText(frame,"Face detected:",(x-20,y-20),cv2.FONT_HERSHEY_COMPLEX,1,red,1)
                faceROI = greyFrame[y:y+h,x:x+w] 
-               eyes = eyeCascade.detectMultiScale(faceROI,1.3,5)
+               eyes = eyeCascade.detectMultiScale(faceROI)
                for eye in eyes:
                 eyex,eyey,eyeWidth,eyeHeight = eye
                 cv2.rectangle(frame[y:y+h,x:x+w],(eyex,eyey),(eyex+eyeWidth,eyey+eyeHeight),red,3)
