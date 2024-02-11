@@ -24,6 +24,7 @@ def returnFrame(camera):
       return frame
 
 faceCascade = cv2.CascadeClassifier("haar\haarcascade_frontalface_default.xml")
+eyeCascade = cv2.CascadeClassifier("haar\haarcascade_eye.xml")
 textContent = ""
 red = (0,0,255)
 startInput = input(startQuestion)
@@ -40,10 +41,17 @@ if startInput == startKey:
       frame = returnFrame(camera)
       greyFrame = cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
       faces = faceCascade.detectMultiScale(greyFrame,1.3,5)
+      eyes = eyeCascade.detectMultiScale(greyFrame,1.3,5)
       for face in faces:
                x,y,w,h = face
                cv2.rectangle(frame,(x,y),(x+w,y+h),red,3)
                cv2.putText(frame,"Face detected:",(x-20,y-20),cv2.FONT_HERSHEY_COMPLEX,1,red,1)
+               faceROI = greyFrame[y:y+h,x:x+w] 
+               eyes = eyeCascade.detectMultiScale(faceROI,1.3,5)
+               for eye in eyes:
+                eyex,eyey,eyeWidth,eyeHeight = eye
+                cv2.rectangle(frame[y:y+h,x:x+w],(eyex,eyey),(eyex+eyeWidth,eyey+eyeHeight),red,3)
+      
       
             
       cv2.putText(frame,textContent,(20,20),cv2.FONT_HERSHEY_COMPLEX,1,red,1)
