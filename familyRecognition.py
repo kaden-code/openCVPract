@@ -38,10 +38,18 @@ serenityMusardEncoded = FR.face_encodings(serenityMusardImg)[0]
 
 
 
+karterMusardImg = FR.load_image_file("familyFaces/karter.jpg")
+karterMusardEncoded = FR.face_encodings(karterMusardImg)[0]
+
+tyvinMusardImg = FR.load_image_file("familyFaces/tyvin.jpg")
+test = FR.face_locations(tyvinMusardImg)
+tyvinMusardEncoded = FR.face_encodings(tyvinMusardImg)[0]
+print(test) 
+##tyvinMusardEncoded = FR.face_encodings(tyvinMusardImg)[0]
 
 
-knownEncodings = [kadenMusardEncoded,serenityMusardEncoded]
-names = ["Kaden","Serenity"]
+knownEncodings = [kadenMusardEncoded,serenityMusardEncoded,karterMusardEncoded,tyvinMusardEncoded]
+names = ["Kaden","Serenity","Karter","tyvin"]
 
 
 
