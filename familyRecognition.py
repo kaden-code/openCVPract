@@ -4,7 +4,7 @@ import face_recognition as FR
 
 
 startQuestion = "Enter Key: "
-startKey = "AI"
+startKey = "A!"
 
 cameraWidth = 1280
 cameraHeight = 720
