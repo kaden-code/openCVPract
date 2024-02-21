@@ -2,6 +2,8 @@ import os
 import cv2
 import face_recognition as FR
 
+faceCascade = cv2.CascadeClassifier("haar\haarcascade_frontalface_default.xml")
+
 def trainFaces(path,knownFaces,knownNames):
     for root,directories,files in os.walk(path):
        print("Training In" ,root)
@@ -38,7 +40,6 @@ def cameraFps(fps):
 
 
 
-
 def returnFrame(camera):
       ignore,frame = camera.read()
       return frame
@@ -53,6 +54,8 @@ if startInput == startKey:
     camera.set(cv2.CAP_PROP_FOURCC,cv2.VideoWriter_fourcc(*"MJPG"))
     cameraSizing(cameraWidth,cameraHeight)
     cameraFps(30)
+    window = " "
+    cv2.namedWindow(window)
     while True:
       unknownFace = returnFrame(camera)
       unknownFace = cv2.cvtColor(unknownFace,cv2.COLOR_BGR2RGB)
@@ -60,7 +63,6 @@ if startInput == startKey:
       faceLocations = FR.face_locations(unknownFace)
       unknownEncodings = FR.face_encodings(unknownFace,faceLocations)
       unknownFace = cv2.cvtColor(unknownFace,cv2.COLOR_RGB2BGR)
-
       for faceLocation,unknownEncoding in zip(faceLocations,unknownEncodings):
         top,right,bottom,left = faceLocation
         print(faceLocation)
@@ -73,6 +75,37 @@ if startInput == startKey:
           print(matchIndex)
           name = knownNames[matchIndex]
         cv2.putText(unknownFace,name,(left,top-20),font,1,(0,0,255),1)
-      cv2.imshow("Camera window",unknownFace)
-      if cv2.waitKey(1) == ord("q"):
-            break
+      cv2.imshow(window,unknownFace)
+      pressedKey = cv2.waitKey(1) & 0xFF
+      ## camera loop for inspection,detect face in roi and take img of face,store img of face in filesytem with name,train on face in running program
+      if pressedKey == ord('i'):
+        print("Inspecting...")
+        while True:
+              frame = returnFrame(camera)
+              cv2.rectangle(frame,(cameraWidth//4,cameraHeight//4) ,(cameraWidth*3//4,cameraHeight*3//4), (0,0,255), 4)
+              cv2.putText(frame,"Put Face in rectangle",(cameraWidth//4,cameraHeight//4),font,1,(0,0,255),1)
+              frameRoi = frame[cameraHeight//4:cameraHeight*3//4,cameraWidth//4:cameraWidth*3//4]
+              grayRoi = cv2.cvtColor(frameRoi,cv2.COLOR_BGR2GRAY)
+              faces = faceCascade.detectMultiScale(grayRoi,1.3,5)
+              print(faces)
+              if len(faces) == 0:
+                    print("No face")
+              else:
+                    name = input("Faces name: ")
+                    if name == "breakQ":
+                          break
+                    face = FR.face_encodings(frameRoi)[0]
+                    knownEncodings.append(face)
+                    knownNames.append(name)
+
+                    cv2.imwrite(os.path.join(trainingFile, name + '.jpg'), frameRoi)
+                    break
+                    
+              cv2.imshow(window,frame)
+              quitIdentify = cv2.waitKey(1) & 0xFF
+              if quitIdentify == ord('k'):
+                    break
+
+      elif pressedKey == ord('q'):
+        print("quit")
+        break    
