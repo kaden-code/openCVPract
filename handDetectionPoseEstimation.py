@@ -34,6 +34,7 @@ if startInput == startKey:
     hands = mp.solutions.hands.Hands(False,2)
     mpDraw = mp.solutions.drawing_utils
     while True:
+      myHands = []
       frame = returnFrame(camera)
       frame = cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
       results = hands.process(frame)
@@ -46,7 +47,15 @@ if startInput == startKey:
                  for landMark in handLandMarks.landmark:
                     myHand.append((int(landMark.x*cameraWidth),int(landMark.y*cameraHeight)))
                  print(myHand)
-                 cv2.circle(frame,myHand[20],2,(255,0,0),-1) 
+                 print("")
+                 cv2.circle(frame,myHand[17],10,(255,0,0),-1) 
+                 cv2.circle(frame,myHand[18],10,(255,0,0),-1) 
+                 cv2.circle(frame,myHand[19],10,(255,0,0),-1) 
+                 cv2.circle(frame,myHand[20],10,(255,0,0),-1) 
+
+                 myHands.append(myHand)
+                 print(myHands)
+                 print("")
       frame = cv2.cvtColor(frame,cv2.COLOR_RGB2BGR)
       cv2.imshow("Camera window",frame)
       if cv2.waitKey(1) == ord("q"):
