@@ -1,7 +1,15 @@
 import os
 import cv2
 import face_recognition as FR
-
+trainingFile = 'C:/Users/12403/coding/aiPract/familyFaces'
+knownEncodings = []
+knownNames = []
+startQuestion = "Enter Key: "
+startKey = "A!"
+font = cv2.FONT_HERSHEY_SIMPLEX
+cameraWidth = 640
+cameraHeight = 320
+window = " "
 faceCascade = cv2.CascadeClassifier("haar\haarcascade_frontalface_default.xml")
 
 def trainFaces(path,knownFaces,knownNames):
@@ -18,15 +26,7 @@ def trainFaces(path,knownFaces,knownNames):
          knownNames.append(name)
     print("Opening eyes....")
 
-trainingFile = 'C:/Users/12403/coding/aiPract/familyFaces'
-knownEncodings = []
-knownNames = []
 
-startQuestion = "Enter Key: "
-startKey = "A!"
-
-cameraWidth = 640
-cameraHeight = 320
 
 def cameraSizing(width,height):
      camera.set(cv2.CAP_PROP_FRAME_WIDTH,width)
@@ -45,7 +45,6 @@ def returnFrame(camera):
       return frame
 
 startInput = input(startQuestion)
-font = cv2.FONT_HERSHEY_SIMPLEX
 
 if startInput == startKey:
     trainFaces(trainingFile,knownEncodings,knownNames)
@@ -54,7 +53,6 @@ if startInput == startKey:
     camera.set(cv2.CAP_PROP_FOURCC,cv2.VideoWriter_fourcc(*"MJPG"))
     cameraSizing(cameraWidth,cameraHeight)
     cameraFps(30)
-    window = " "
     cv2.namedWindow(window)
     while True:
       unknownFace = returnFrame(camera)
