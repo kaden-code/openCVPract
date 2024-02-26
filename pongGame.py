@@ -81,7 +81,6 @@ if startInput == startKey:
     camera.set(cv2.CAP_PROP_FOURCC,cv2.VideoWriter_fourcc(*"MJPG"))
     cameraSizing(cameraWidth,cameraHeight)
     cameraFps(30)
-    ballXLeft = False
     ballXRight = True
     handAi = mpHands()
     while True:
@@ -94,18 +93,16 @@ if startInput == startKey:
         ballX = ballX + 5
         ballCordinates = (ballX,ballY)
         
-      if ballXLeft == True:
+      if ballXRight == False:
         ballX = ballX - 5
         ballCordinates = (ballX,ballY)
         
 
       if ballX >= cameraWidth - 12:
         ballXRight = False
-        ballXLeft = True
 
       if ballX <= 12:
         ballXRight = True
-        ballXLeft = False
       print(ballX)
       createBall(frame,ballCordinates)
 
