@@ -1,4 +1,5 @@
 import os
+import time
 import cv2
 import face_recognition as FR
 trainingFile = 'C:/Users/12403/coding/aiPract/familyFaces'
@@ -78,17 +79,22 @@ if startInput == startKey:
       ## camera loop for inspection,detect face in roi and take img of face,store img of face in filesytem with name,train on face in running program
       if pressedKey == ord('i'):
         print("Inspecting...")
+        waitTime = 3
         while True:
+              startTime = time.time()   
               frame = returnFrame(camera)
               cv2.rectangle(frame,(cameraWidth//4,cameraHeight//4) ,(cameraWidth*3//4,cameraHeight*3//4), (0,0,255), 4)
-              cv2.putText(frame,"Put Face in rectangle",(cameraWidth//4,cameraHeight//4),font,1,(0,0,255),1)
               frameRoi = frame[cameraHeight//4:cameraHeight*3//4,cameraWidth//4:cameraWidth*3//4]
               grayRoi = cv2.cvtColor(frameRoi,cv2.COLOR_BGR2GRAY)
               faces = faceCascade.detectMultiScale(grayRoi,1.3,5)
-              print(faces)
+              endTime = time.time()
               if len(faces) == 0:
-                    print("No face")
+                  cv2.putText(frame,"Put Face in rectangle",(cameraWidth//4,cameraHeight//4),font,1,(0,0,255),1)
+
               else:
+                  duration = endTime - startTime
+                  waitTime = waitTime - duration
+                  if waitTime <= 0:                        
                     name = input("Faces name: ")
                     if name == "breakQ":
                           break
@@ -98,7 +104,7 @@ if startInput == startKey:
 
                     cv2.imwrite(os.path.join(trainingFile, name + '.jpg'), frameRoi)
                     break
-                    
+                  cv2.putText(frame,str(int(waitTime)),(0,25),font,1,(0,0,255),1) 
               cv2.imshow(window,frame)
               quitIdentify = cv2.waitKey(1) & 0xFF
               if quitIdentify == ord('k'):
