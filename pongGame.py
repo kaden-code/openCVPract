@@ -82,16 +82,14 @@ if startInput == startKey:
     cameraSizing(cameraWidth,cameraHeight)
     cameraFps(30)
     ballXRight = True
+    ballYUp = True
     handAi = mpHands()
     while True:
       frame = returnFrame(camera)
       myHands = handAi.getHands(frame)
-      if myHands != None:
-       for hand in myHands:
-             cv2.rectangle(frame,(hand[8][0] - paddleWidth//2 ,0),(hand[8][0] + paddleWidth//2,paddleHeight),paddleColor,-1)
       if ballXRight == True:
-        ballX = ballX + 5
-        ballCordinates = (ballX,ballY)
+          ballX = ballX + 5
+          ballCordinates = (ballX,ballY)
         
       if ballXRight == False:
         ballX = ballX - 5
@@ -104,8 +102,37 @@ if startInput == startKey:
       if ballX <= 12:
         ballXRight = True
       print(ballX)
-      createBall(frame,ballCordinates)
 
+      if ballYUp == True:
+        ballY += -5
+        ballCordinates = (ballX,ballY)
+        
+      if ballYUp == False:
+        ballY += 5
+        ballCordinates = (ballX,ballY)
+        
+
+      if ballY >= cameraHeight + 24:
+        ballYUp = True
+
+      if ballY <= 12:
+        ballYUp = False
+        print("down")
+      print(ballY)
+      
+      createBall(frame,ballCordinates)
+      if myHands != None:
+           for hand in myHands:
+             cv2.rectangle(frame,(hand[8][0] - paddleWidth//2 ,0),(hand[8][0] + paddleWidth//2,paddleHeight),paddleColor,-1)
+             # Given rectangle parameters
+             rectX = hand[8][0] - paddleWidth // 2  # X-coordinate of the left edge
+             rectY = 24                            # Y-coordinate of the top edge
+             rectWidth = paddleWidth               # Width of the rectangle
+             rectHeight = paddleHeight             # Height of the rectangle
+
+             # Check for collision
+             if rectX <= ballX <= rectX + rectWidth and rectY <= ballY <= rectY + rectHeight:
+               ballYUp = False
       cv2.imshow("Camera window",frame)
       if cv2.waitKey(1) == ord("q"):
             break
