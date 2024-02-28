@@ -1,4 +1,5 @@
 import cv2
+import time
 startQuestion = "Enter Key: "
 startKey = "A!"
 
@@ -54,9 +55,7 @@ def cameraFps(fps):
                            ## lets windows know that the video captures intent is to show allowing for faster performace 
 
 
-
-
-ballX,ballY = 23,23
+ballX,ballY = cameraHeight - 12,cameraWidth - 24
 ballCordinates = (ballX,ballY)
 
 def createBall(frame,ballCordinates):
@@ -83,6 +82,7 @@ if startInput == startKey:
     cameraFps(30)
     ballXRight = True
     ballYUp = True
+    font = cv2.FONT_HERSHEY_SIMPLEX
     handAi = mpHands()
     while True:
       frame = returnFrame(camera)
@@ -95,13 +95,11 @@ if startInput == startKey:
         ballX = ballX - 5
         ballCordinates = (ballX,ballY)
         
-
       if ballX >= cameraWidth - 12:
         ballXRight = False
 
       if ballX <= 12:
         ballXRight = True
-      print(ballX)
 
       if ballYUp == True:
         ballY += -5
@@ -111,15 +109,12 @@ if startInput == startKey:
         ballY += 5
         ballCordinates = (ballX,ballY)
         
-
       if ballY >= cameraHeight + 24:
         ballYUp = True
 
       if ballY <= 12:
-        ballYUp = False
-        print("down")
-      print(ballY)
-      
+        cv2.putText(frame, "you lost", (cameraWidth//2 + 20,cameraHeight//2),font,1,(0,0,255),2)
+        break
       createBall(frame,ballCordinates)
       if myHands != None:
            for hand in myHands:
@@ -133,6 +128,7 @@ if startInput == startKey:
              # Check for collision
              if rectX <= ballX <= rectX + rectWidth and rectY <= ballY <= rectY + rectHeight:
                ballYUp = False
+              
       cv2.imshow("Camera window",frame)
       if cv2.waitKey(1) == ord("q"):
             break
