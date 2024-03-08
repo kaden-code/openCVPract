@@ -90,9 +90,11 @@ if startInput == startKey:
     ballXRight = True
     ballYUp = True
     lives = 3
+    death = False
     ballSpeed = 5
     font = cv2.FONT_HERSHEY_SIMPLEX
     handAi = mpHands()
+    deathScreen = cv2.imread("pongImgs/You died.png")
     while True:
       frame = returnFrame(camera)
       myHands = handAi.getHands(frame)
@@ -125,7 +127,7 @@ if startInput == startKey:
         lives += -1
         ballY = cameraHeight + 24
       if lives == 0: 
-       break
+       death = True
       createBall(frame,ballCordinates)
       if myHands != None:
            for hand in myHands:
@@ -140,7 +142,10 @@ if startInput == startKey:
              if rectX <= ballX <= rectX + rectWidth and rectY <= ballY <= rectY + rectHeight:
                ballYUp = False
                ballSpeed += 1
-      cv2.imshow("Camera window", frame)
+      if death == False:
+        cv2.imshow("Camera window", frame)
+      else:
+        cv2.imshow("Camera window", deathScreen)
       cv2.moveWindow("Camera window",0,0)
     
 
