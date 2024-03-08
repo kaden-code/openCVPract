@@ -90,17 +90,18 @@ if startInput == startKey:
     ballXRight = True
     ballYUp = True
     lives = 3
+    ballSpeed = 5
     font = cv2.FONT_HERSHEY_SIMPLEX
     handAi = mpHands()
     while True:
       frame = returnFrame(camera)
       myHands = handAi.getHands(frame)
       if ballXRight == True:
-          ballX = ballX + 5
+          ballX = ballX +  ballSpeed
           ballCordinates = (ballX,ballY)
         
       if ballXRight == False:
-        ballX = ballX - 5
+        ballX = ballX -  ballSpeed
         ballCordinates = (ballX,ballY)
         
       if ballX >= cameraWidth - 12:
@@ -110,11 +111,11 @@ if startInput == startKey:
         ballXRight = True
 
       if ballYUp == True:
-        ballY += -5
+        ballY += - ballSpeed
         ballCordinates = (ballX,ballY)
         
       if ballYUp == False:
-        ballY += 5
+        ballY +=  ballSpeed
         ballCordinates = (ballX,ballY)
         
       if ballY >= cameraHeight + 24:
@@ -138,6 +139,7 @@ if startInput == startKey:
              # Check for collision
              if rectX <= ballX <= rectX + rectWidth and rectY <= ballY <= rectY + rectHeight:
                ballYUp = False
+               ballSpeed += 1
       cv2.imshow("Camera window", frame)
       cv2.moveWindow("Camera window",0,0)
     
