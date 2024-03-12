@@ -146,8 +146,13 @@ if startInput == startKey:
         cv2.imshow("Camera window", frame)
       else:
         cv2.imshow("Camera window", deathScreen)
+        if cv2.waitKey(1) == ord("r"):
+                death = False
+                life = 3
+                ballSpeed = 5
       cv2.moveWindow("Camera window",0,0)
     
 
       if cv2.waitKey(1) == ord("q"):
             break
+      
